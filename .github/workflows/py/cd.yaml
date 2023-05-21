@@ -51,5 +51,5 @@ jobs:
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
       - name: Publish
-        run: poetry publish --build -u __token__ -p ${{ input.PYPI_TOKEN }}
+        run: poetry publish --build -u __token__ -p ${{ inputs.PYPI_TOKEN }}
         working-directory: ${{ inputs.WORKING_DIRECTORY }}

@@ -1,20 +1,14 @@
-name: plugin-rs-cd
+name: plugin-interface-ci
 
 on:
-  plugin_rust_cd:
+  plugin_interface_ci:
     inputs:
       WORKING_DIRECTORY:
         required: true
         type: string
-      CRATES_TOKEN:
-        required: true
-        type: string
 
 jobs:
-  Crate-Publish:
-    if: |
-      github.event.pull_request.merged &&
-      endsWith(github.event.pull_request.title, '/workflows/cd')
+  Build-Interface:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -34,12 +28,6 @@ jobs:
         run: yarn install --nonInteractive --frozen-lockfile --prefer-offline
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-
-      - name: Publish
-        run: cargo publish --token {{ inputs.CRATES_TOKEN }}
+      - name: Build
+        run: yarn build
         working-directory: ${{ inputs.WORKING_DIRECTORY }}

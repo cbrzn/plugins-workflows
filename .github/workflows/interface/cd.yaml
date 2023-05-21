@@ -1,17 +1,14 @@
-name: plugin-js-cd
+name: plugin-interface-cd
 
 on:
-  plugin_javascript_cd:
+  plugin_interface_cd:
     inputs:
       WORKING_DIRECTORY:
         required: true
         type: string
-      NPM_TOKEN:
-        required: true
-        type: string
 
 jobs:
-  Package-Publish:
+  Publish-Interface:
     if: |
       github.event.pull_request.merged &&
       endsWith(github.event.pull_request.title, '/workflows/cd')
@@ -38,15 +35,14 @@ jobs:
         run: yarn build
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
-      - name: Auth into NPM
-        run: |
-          npm config set registry https://registry.npmjs.org/
-          npm config set //registry.npmjs.org/:_authToken=${{ inputs.NPM_TOKEN }}
-          echo $(npm whoami --registry https://registry.npmjs.org/)
+      - name: Deploy
+        run: yarn deploy
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
-      - name: Publish to NPM
-        run: yarn publish:npm
-        working-directory: ${{ inputs.WORKING_DIRECTORY }}
-        env:
-          NPM_AUTH_TOKEN: ${{ inputs.NPM_TOKEN }}
+      - name: PR New URI
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: interface-cd-pr-${{github.event.number}}
+          commit-message: "interface: update deployment URI"
+          title: "interface: update deployment URI"
+          body: "Triggered by: https://github.com/${{github.repository}}/pull/${{github.event.number}}"
