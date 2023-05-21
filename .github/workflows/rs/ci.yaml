@@ -1,7 +1,7 @@
 name: plugin-rs-ci
 
 on:
-  workflow_call:
+  plugin_rust_ci:
     inputs:
       working-directory:
         required: true
