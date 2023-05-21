@@ -3,12 +3,12 @@ name: plugin-rs-ci
 on:
   plugin_rust_ci:
     inputs:
-      working-directory:
+      WORKING_DIRECTORY:
         required: true
         type: string
 
 jobs:
-  ci:
+  Build-And-Test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --nonInteractive --frozen-lockfile --prefer-offline
-        working-directory: ${{ inputs.working-directory }}
+        working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -34,10 +34,6 @@ jobs:
           toolchain: nightly
           override: true
 
-      - name: Build
-        run: cargo build
-        working-directory: ${{ inputs.working-directory }}
-
       - name: Test
         run: cargo test
-        working-directory: ${{ inputs.working-directory }}
+        working-directory: ${{ inputs.WORKING_DIRECTORY }}
