@@ -1,7 +1,7 @@
 name: plugin-interface-ci
 
 on:
-  plugin_interface_ci:
+  workflow_call:
     inputs:
       WORKING_DIRECTORY:
         required: true

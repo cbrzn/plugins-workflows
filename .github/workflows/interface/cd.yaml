@@ -1,7 +1,7 @@
 name: plugin-interface-cd
 
 on:
-  plugin_interface_cd:
+  workflow_call:
     inputs:
       WORKING_DIRECTORY:
         required: true

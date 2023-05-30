@@ -1,7 +1,7 @@
 name: plugin-py-ci
 
 on:
-  plugin_python_ci:
+  workflow_call:
     inputs:
       WORKING_DIRECTORY:
         required: true
