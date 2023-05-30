@@ -6,9 +6,6 @@ on:
       WORKING_DIRECTORY:
         required: true
         type: string
-      PYPI_TOKEN:
-        required: true
-        type: string
 
 jobs:
   Package-Publish:
@@ -51,5 +48,5 @@ jobs:
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
       - name: Publish
-        run: poetry publish --build -u __token__ -p ${{ inputs.PYPI_TOKEN }}
+        run: poetry publish --build -u __token__ -p ${{ secrets.POLYWRAP_BUILD_BOT_PYPI_PAT }}
         working-directory: ${{ inputs.WORKING_DIRECTORY }}

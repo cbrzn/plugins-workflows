@@ -6,9 +6,6 @@ on:
       WORKING_DIRECTORY:
         required: true
         type: string
-      NPM_TOKEN:
-        required: true
-        type: string
 
 jobs:
   Package-Publish:
@@ -41,7 +38,7 @@ jobs:
       - name: Auth into NPM
         run: |
           npm config set registry https://registry.npmjs.org/
-          npm config set //registry.npmjs.org/:_authToken=${{ inputs.NPM_TOKEN }}
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.POLYWRAP_BUILD_BOT_NPM_PAT }}
           echo $(npm whoami --registry https://registry.npmjs.org/)
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
 
@@ -49,4 +46,4 @@ jobs:
         run: yarn publish:npm
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
         env:
-          NPM_AUTH_TOKEN: ${{ inputs.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_NPM_PAT }}
